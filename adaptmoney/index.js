@@ -22,7 +22,12 @@ function AdaptMoneyFromObj(obj, keyParams) {
     if (typeof obj == "object") {
         if (Array.isArray(obj)) {
             for (let i = 0; i < obj.length; i++) {
-                AdaptMoneyFromObj(obj[i], keyParams)
+                if (typeof obj[i] == "object") {
+                    AdaptMoneyFromObj(obj[i], keyParams)
+                } else if (typeof obj[i] == "number") {
+                    obj[i] = AdaptMoney(obj[i])
+                }
+
             }
         } else {
             for (let k in obj) {
@@ -56,9 +61,13 @@ let obj = {
 
 
 }
+let arr2 = [[10000, 20000], [0, 4500, 60060]]
 let keyParams = ["key1", "key2", "key5"]
 AdaptMoneyFromObj(arr, keyParams)
 AdaptMoneyFromObj(obj, keyParams)
 
+AdaptMoneyFromObj(arr2)
+
 console.log(arr)
 console.log(obj)
+console.log(arr2)
