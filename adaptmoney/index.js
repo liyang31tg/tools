@@ -22,7 +22,11 @@ function AdaptMoneyFromObj(obj, keyParams) {
   if (typeof obj == "object") {
     if (Array.isArray(obj)) {
       for (let i = 0; i < obj.length; i++) {
-        AdaptMoneyFromObj(obj[i], keyParams);
+        if (typeof obj[i] == "object") {
+          AdaptMoneyFromObj(obj[i], keyParams);
+        } else if (typeof obj[i] == "number") {
+          obj[i] = AdaptMoney(obj[i]);
+        }
       }
     } else {
       for (let k in obj) {
@@ -59,9 +63,6 @@ let keyParams = ["key1", "key2", "key5"];
 AdaptMoneyFromObj(arr, keyParams);
 AdaptMoneyFromObj(obj, keyParams);
 
-console.log(arr);
-console.log(obj);
-
 let obj1 = [
   {
     BetAvg: 5450000,
@@ -77,3 +78,11 @@ let obj1 = [
 AdaptMoneyFromObj(obj1, ["BetAvg", "BetTotal", "D", "Water"]);
 
 console.log("obj1:", obj1);
+
+let arr2 = [[10000, 20000], [0, 4500, 60060]];
+
+AdaptMoneyFromObj(arr2);
+
+console.log(arr);
+console.log(obj);
+console.log(arr2);
